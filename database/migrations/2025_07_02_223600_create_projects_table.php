@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('project_name');
             $table->date('start_date');
             $table->date('deadline');
-            $table->integer('level')->nullable();
+            $table->enum('level', ['easy', 'medium', 'hard'])->nullable();
             $table->string('status', 50)->nullable();
             $table->timestamps();
 

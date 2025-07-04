@@ -210,7 +210,7 @@ class AuthController extends Controller
         $user = Auth::user();
 
         // Check current password
-        if (!Hash::check($validated['current_password'], $user->password)) {
+        if (!Hash::check($validated['current_password'], (string) $user->password)) {
             return back()->withErrors([
                 'current_password' => 'The provided password does not match your current password.',
             ]);

@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->date('activity_date'); // tanggal absen
             $table->time('check_in')->nullable(); // waktu masuk
             $table->time('check_out')->nullable(); // waktu pulang
-            $table->enum('status', ['hadir', 'telat', 'izin', 'sakit', 'cuti', 'alfa'])->default('hadir');
+            $table->enum('status', ['present', 'absent', 'late'])->default('present');
             $table->text('note')->nullable(); // alasan / catatan opsional
             $table->timestamps();
 
@@ -24,6 +24,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('activity');
+        Schema::dropIfExists('activities');
     }
 };

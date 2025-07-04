@@ -39,7 +39,7 @@ class TaskController extends Controller
 
         Task::create($validated);
 
-        return redirect()->route('tasks.index')
+        return redirect()->route('employee.tasks.index')
             ->with('success', 'Task created successfully.');
     }
 
@@ -69,7 +69,7 @@ class TaskController extends Controller
 
         $task->update($validated);
 
-        return redirect()->route('tasks.index')
+        return redirect()->route('employee.tasks.index')
             ->with('success', 'Task updated successfully.');
     }
 
@@ -77,7 +77,7 @@ class TaskController extends Controller
     {
         $task->delete();
 
-        return redirect()->route('tasks.index')
+        return redirect()->route('employee.tasks.index')
             ->with('success', 'Task deleted successfully.');
     }
 

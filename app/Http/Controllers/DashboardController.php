@@ -37,9 +37,21 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('dashboard.admin', compact(
+        $recentActivities = Activity::with('user')
+            ->orderBy('activity_date', 'desc')
+            ->take(7)
+            ->get();
+
+        $activityChartData = Activity::selectRaw('MONTH(activity_date) as month, COUNT(*) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total')
+            ->toArray();
+        $activityChartData = array_pad($activityChartData, 12, 0);
+
+        return view('dashboard', compact(
             'totalUsers', 'totalProjects', 'totalTasks', 'activeLeaves',
-            'recentProjects', 'recentTasks', 'pendingLeaves'
+            'recentProjects', 'recentTasks', 'pendingLeaves', 'recentActivities', 'activityChartData'
         ));
     }
 
@@ -62,9 +74,18 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('dashboard.hr', compact(
+        $recentProjects = Project::orderBy('created_at', 'desc')->take(5)->get();
+        $recentTasks = Task::with(['project', 'assignedUser'])->orderBy('created_at', 'desc')->take(5)->get();
+        $activityChartData = Activity::selectRaw('MONTH(activity_date) as month, COUNT(*) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total')
+            ->toArray();
+        $activityChartData = array_pad($activityChartData, 12, 0);
+
+        return view('dashboard', compact(
             'totalEmployees', 'totalProjects', 'todayActivities', 'activeLeaves',
-            'recentActivities', 'recentLeaves'
+            'recentActivities', 'recentLeaves', 'recentProjects', 'recentTasks', 'activityChartData'
         ));
     }
 
@@ -72,35 +93,37 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $myTasks = Task::where('assigned_user_id', $user->user_id)->count();
-        $completedTasks = Task::where('assigned_user_id', $user->user_id)
-            ->where('status', 'completed')
-            ->count();
-
-        $myLeaves = Leave::where('submitted_by_user_id', $user->user_id)->count();
-        $activeLeaves = Leave::where('submitted_by_user_id', $user->user_id)
-            ->where('start_date', '<=', now())
+        $myTasks = $user->assignedTasks()->count();
+        $completedTasks = $user->assignedTasks()->where('status', 'completed')->count();
+        $myLeaves = $user->leaves()->count();
+        $activeLeaves = $user->leaves()->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->count();
+        $todayActivity = $user->activities()->whereDate('activity_date', today())->first();
 
-        $todayActivity = Activity::where('user_id', $user->user_id)
-            ->whereDate('activity_date', today())
-            ->first();
-
-        $recentTasks = Task::with('project')
-            ->where('assigned_user_id', $user->user_id)
+        $recentTasks = $user->assignedTasks()->with('project')
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
-
-        $recentActivities = Activity::where('user_id', $user->user_id)
+        $recentActivities = $user->activities()
             ->orderBy('activity_date', 'desc')
             ->take(7)
             ->get();
+        $recentProjects = Project::where('project_director', $user->user_id)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+        $activityChartData = $user->activities()
+            ->selectRaw('MONTH(activity_date) as month, COUNT(*) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total')
+            ->toArray();
+        $activityChartData = array_pad($activityChartData, 12, 0);
 
-        return view('dashboard.employee', compact(
+        return view('dashboard', compact(
             'myTasks', 'completedTasks', 'myLeaves', 'activeLeaves',
-            'todayActivity', 'recentTasks', 'recentActivities'
+            'todayActivity', 'recentTasks', 'recentActivities', 'recentProjects', 'activityChartData'
         ));
     }
 }

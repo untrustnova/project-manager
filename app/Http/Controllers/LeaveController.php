@@ -21,7 +21,7 @@ class LeaveController extends Controller
     public function create()
     {
         $users = User::all();
-        return view('leaves.create', compact('users'));
+        return view('leaves.index', compact('users'));
     }
 
     public function store(Request $request)
@@ -41,7 +41,7 @@ class LeaveController extends Controller
 
         Leave::create($validated);
 
-        return redirect()->route('leaves.index')
+        return redirect()->route('employee.leaves.index')
             ->with('success', 'Leave request created successfully.');
     }
 
@@ -74,7 +74,7 @@ class LeaveController extends Controller
 
         $leave->update($validated);
 
-        return redirect()->route('leaves.index')
+        return redirect()->route('employee.leaves.index')
             ->with('success', 'Leave request updated successfully.');
     }
 
@@ -82,7 +82,7 @@ class LeaveController extends Controller
     {
         $leave->delete();
 
-        return redirect()->route('leaves.index')
+        return redirect()->route('employee.leaves.index')
             ->with('success', 'Leave request deleted successfully.');
     }
 
@@ -118,7 +118,7 @@ class LeaveController extends Controller
 
         Leave::create($validated);
 
-        return redirect()->route('leaves.my-leaves')
+        return redirect()->route('employee.leaves.my-leaves')
             ->with('success', 'Leave application submitted successfully.');
     }
 }

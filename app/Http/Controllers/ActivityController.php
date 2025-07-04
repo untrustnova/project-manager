@@ -37,7 +37,7 @@ class ActivityController extends Controller
 
         Activity::create($validated);
 
-        return redirect()->route('activities.index')
+        return redirect()->route('employee.activities.index')
             ->with('success', 'Activity created successfully.');
     }
 
@@ -66,7 +66,7 @@ class ActivityController extends Controller
 
         $activity->update($validated);
 
-        return redirect()->route('activities.index')
+        return redirect()->route('employee.activities.index')
             ->with('success', 'Activity updated successfully.');
     }
 
@@ -74,7 +74,7 @@ class ActivityController extends Controller
     {
         $activity->delete();
 
-        return redirect()->route('activities.index')
+        return redirect()->route('employee.activities.index')
             ->with('success', 'Activity deleted successfully.');
     }
 
