@@ -34,4 +34,15 @@ class Activity extends Model
         if (!$this->check_in || !$this->check_out) return null;
         return Carbon::parse($this->check_out)->diffInMinutes($this->check_in);
     }
+
+    // Di App\Models\Activity.php
+public function relatedTask()
+{
+    return $this->belongsTo(Task::class, 'related_task_id', 'task_id');
+}
+
+public function relatedProject()
+{
+    return $this->belongsTo(Project::class, 'related_project_id', 'project_id');
+}
 }

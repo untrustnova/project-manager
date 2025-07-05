@@ -111,6 +111,7 @@ Route::middleware(['auth'])->group(function () {
     // Employee routes
     Route::prefix('employee')->name('employee.')->middleware('checkrole:employee')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'employeeDashboard'])->name('dashboard');
+        Route::post('/dashboard/status', [DashboardController::class, 'updateStatus'])->name('dashboard.status');
 
         // Profile management
         Route::get('/profile', function() {

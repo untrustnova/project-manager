@@ -21,6 +21,7 @@ class User extends Authenticatable
         'birth',
         'telegram_link',
         'role',
+        'status',
         'image',
     ];
 
