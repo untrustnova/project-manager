@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Login Admin')
+@section('title', 'Login')
 
 @section('content')
 <div class="w-full min-h-screen flex items-center justify-center" style="background: linear-gradient(178.48deg, #4397BB 1.29%, #FAFAFA 116%);">

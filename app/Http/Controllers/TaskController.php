@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserStatsUpdated;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\User;
@@ -92,15 +93,18 @@ class TaskController extends Controller
         return view('tasks.my-tasks', compact('tasks'));
     }
 
-    public function updateStatus(Request $request, Task $task)
-    {
-        $validated = $request->validate([
-            'status' => 'required|string|max:50',
-        ]);
+public function updateStatus(Request $request, Task $task)
+{
+    $validated = $request->validate([
+        'status' => 'required|string|max:50',
+    ]);
+    $task->update($validated);
 
-        $task->update($validated);
-
-        return redirect()->back()
-            ->with('success', 'Task status updated successfully.');
+    if ($task->status === 'completed' && $task->assignedUser) {
+        // Dispatch event untuk update data real-time
+        UserStatsUpdated::dispatch($task->assignedUser);
     }
+
+    return redirect()->back()->with('success', 'Task status updated!');
+}
 }

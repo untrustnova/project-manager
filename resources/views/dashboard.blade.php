@@ -74,7 +74,7 @@
         <header class="h-[70px] bg-white border-b border-[#E0E0E0] flex items-center px-4 sticky top-0 z-10">
             <div class="flex items-center justify-between w-full">
                 <div class="flex-shrink-0">
-                    <img src="{{ asset('storage/images/crocodic.png') }}" alt="Logo" class="w-[120px] h-[30px] object-contain"
+                    <img src="{{ asset('storage/image/crocodic.png') }}" alt="Logo" class="w-[120px] h-[30px] object-contain"
                          onerror="this.onerror=null;this.src='{{ asset('images/default_logo.png') }}';" />
                 </div>
 
@@ -84,28 +84,40 @@
                         <i class="fa-solid fa-magnifying-glass text-[#7D7D7D] text-[16px] cursor-pointer hover:text-[#6FAEC9] transition-colors"></i>
                     </div>
                 </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex flex-col items-end">
+                            <span class="font-semibold text-[15px] text-[#111111]">{{ Auth::user()->name ?? 'User' }}</span>
+                            <span class="font-medium text-[11px] text-[#7D7D7D]">{{ ucfirst(Auth::user()->role ?? 'Employee') }}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
 
-                <div class="flex items-center gap-2">
-                    <div class="flex flex-col items-end">
-                        <span class="font-semibold text-[15px] text-[#111111]">{{ Auth::user()->name ?? 'User' }}</span>
-                        <span class="font-medium text-[11px] text-[#7D7D7D]">{{ ucfirst(Auth::user()->role ?? 'Employee') }}</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <a href="{{ route('employee.profile') }}" class="relative w-[36px] h-[36px] flex items-center justify-center group">
-                            <div class="absolute w-[36px] h-[36px] rounded-full bg-[#F5F5F5] shadow-[0_0_4px_rgba(0,0,0,0.15)] group-hover:bg-[#E0E0E0] transition-all duration-300"></div>
-                            <i class="fa-solid fa-user text-[22px] text-[#7D7D7D] group-hover:text-[#6FAEC9] transition-all duration-300"></i>
-                        </a>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="relative w-[36px] h-[36px] flex items-center justify-center group">
+                            @php
+                                // Menentukan route profil yang benar berdasarkan peran
+                                $profileRoute = match(Auth::user()->role) {
+                                    'admin' => route('admin.users.show', Auth::id()),
+                                    'hr' => route('hr.employees.show', Auth::id()),
+                                    'employee' => route('employee.profile'),
+                                    default => route('dashboard')
+                                };
+                            @endphp
+
+                            {{-- Link profil sekarang dinamis --}}
+                            <a href="{{ $profileRoute }}" class="relative w-[36px] h-[36px] flex items-center justify-center group">
                                 <div class="absolute w-[36px] h-[36px] rounded-full bg-[#F5F5F5] shadow-[0_0_4px_rgba(0,0,0,0.15)] group-hover:bg-[#E0E0E0] transition-all duration-300"></div>
-                                <i class="fa-solid fa-right-from-bracket text-[22px] text-[#7D7D7D] group-hover:text-red-500 transition-all duration-300"></i>
-                            </button>
-                        </form>
+                                <i class="fa-solid fa-user text-[22px] text-[#7D7D7D] group-hover:text-[#6FAEC9] transition-all duration-300"></i>
+                            </a>
+
+                            <form method="POST" action="{{ route('logout') }}" class="inline">
+                                @csrf
+                                <button type="submit" class="relative w-[36px] h-[36px] flex items-center justify-center group">
+                                    <div class="absolute w-[36px] h-[36px] rounded-full bg-[#F5F5F5] shadow-[0_0_4px_rgba(0,0,0,0.15)] group-hover:bg-[#E0E0E0] transition-all duration-300"></div>
+                                    <i class="fa-solid fa-right-from-bracket text-[22px] text-[#7D7D7D] group-hover:text-red-500 transition-all duration-300"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </header>
+            </header>
 
         <div class="p-4 space-y-4">
             @if(session('success'))
