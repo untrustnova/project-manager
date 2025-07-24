@@ -1,0 +1,187 @@
+// Test in Postman/Whatever u like XD
+
+BASE_URL: http://127.0.0.1:8000/api
+
+// Authentication Endpoints
+BASE_URL/auth/register
+{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password123",
+    "password_confirmation": "password123",
+    "division": "Frontend Web",
+    "tanggal_masuk": "2025-07-24",
+    "pendidikan_terakhir": "S1 Teknik Informatika",
+    "telegram_link": "johndoe_tg",
+    "phone_number": "081234567890",
+    "birthdate": "1995-01-01",
+    "address": "Jakarta, Indonesia"
+}
+
+BASE_URL/auth/login
+{
+    "email": "john@example.com",
+    "password": "password123"
+}
+
+BASE_URL/auth/verify-otp
+{
+    "email": "john@example.com",
+    "otp": "123456"
+}
+
+BASE_URL/auth/resend-otp
+{
+    "email": "john@example.com"
+}
+
+BASE_URL/auth/forgot-password
+{
+    "email": "john@example.com"
+}
+
+BASE_URL/auth/reset-password
+{
+    "email": "john@example.com",
+    "token": "reset_token_here",
+    "password": "newpassword123",
+    "password_confirmation": "newpassword123"
+}
+
+// Protected Endpoints (require Bearer Token)
+// Add header: Authorization: Bearer {token}
+
+// User Management
+BASE_URL/users (GET) - List users with filters
+Query params:
+- role=employee (optional)
+- status=ready (optional)
+- division=Frontend Web (optional)
+- search=john (optional)
+
+BASE_URL/users (POST) - Create user
+{
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "password": "password123",
+    "division": "Backend Web",
+    "role": "employee",
+    "tanggal_masuk": "2025-07-24",
+    "pendidikan_terakhir": "S1 Teknik Informatika",
+    "telegram_link": "janedoe_tg",
+    "phone_number": "081234567891",
+    "birthdate": "1996-01-01",
+    "address": "Bandung, Indonesia"
+}
+
+BASE_URL/users/bulk-update (POST)
+{
+    "users": [
+        {
+            "id": 1,
+            "status": "ready",
+            "role": "employee"
+        },
+        {
+            "id": 2,
+            "status": "stand_by",
+            "role": "hr"
+        }
+    ]
+}
+
+BASE_URL/users/{user_id}/image (POST)
+// Form-data
+image: [file]
+
+BASE_URL/users/{user_id}/status (PATCH)
+{
+    "status": "ready" // ready, stand_by, not_ready, absent, complete
+}
+
+// Project Management
+BASE_URL/projects (POST)
+{
+    "name": "E-Commerce Website",
+    "description": "Build an e-commerce platform",
+    "start_date": "2025-07-24",
+    "end_date": "2025-12-24",
+    "priority": "high",
+    "status": "in_progress",
+    "director_id": 1
+}
+
+BASE_URL/projects/{project_id} (PUT)
+{
+    "name": "E-Commerce Website V2",
+    "description": "Updated project description",
+    "start_date": "2025-07-24",
+    "end_date": "2025-12-31",
+    "priority": "medium",
+    "status": "in_progress",
+    "director_id": 1
+}
+
+// Task Management
+BASE_URL/tasks (POST)
+{
+    "project_id": 1,
+    "title": "Homepage Design",
+    "description": "Design homepage layout",
+    "priority": "high",
+    "deadline": "2025-08-24",
+    "assigned_user_id": 2
+}
+
+BASE_URL/tasks/{task_id} (PUT)
+{
+    "title": "Updated Homepage Design",
+    "description": "Updated design requirements",
+    "priority": "medium",
+    "status": "in_progress",
+    "deadline": "2025-08-31"
+}
+
+// Leave Management
+BASE_URL/leaves (POST)
+{
+    "start_date": "2025-08-01",
+    "end_date": "2025-08-05",
+    "type": "annual",
+    "reason": "Family vacation"
+}
+
+BASE_URL/leaves/{leave_id}/status (PATCH)
+{
+    "status": "approved" // approved, rejected, pending
+}
+
+// Activity Management
+BASE_URL/activities (POST)
+{
+    "activity_type": "task",
+    "description": "Working on homepage design",
+    "start_time": "2025-07-24 09:00:00",
+    "end_time": "2025-07-24 17:00:00",
+    "task_id": 1         // optional
+}
+
+// Response Examples
+
+// Success Response
+{
+    "message": "Success message here",
+    "data": {
+        // Response data
+    }
+}
+
+// Error Response
+{
+    "message": "Error message here",
+    "errors": {
+        "field": [
+            "Error description"
+        ]
+    }
+}
