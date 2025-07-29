@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Dashboard from './pages/Dashboard';
+import EditProfile from './pages/EditProfile';
+import Projects from './pages/Projects';
+import NotFound from './pages/NotFound';
+import Tasks from './pages/Tasks';
+import Login from './pages/Login';
+import Activity from './pages/Activity';
+import ErrorBoundary from './components/ErrorBoundary';
+import CreateEmployee from './pages/CreateEmployee';
+import LeaveSubmission from './pages/LeaveSubmission';
+import EditEmployee from './pages/EditEmployee';
+import EmployeeList from './pages/EmployeeList';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Layout />}>
+          {/* <Route path="/" element={<Dashboard />}> */}
+            <Route index element={<Dashboard />} />
+            <Route path="profile/edit" element={<EditProfile />} />
+            <Route path="projects" element={<Projects />} />
+            <Route path="tasks" element={<Tasks />} />
+            <Route path="activity" element={<Activity />} />
+
+            <Route path="employee" element={<EmployeeList />} />
+            <Route path="employee/create" element={<CreateEmployee />} />
+            <Route path="employee/:id/edit" element={<EditEmployee />} />
+
+
+
+            <Route path="leave" element={<LeaveSubmission />} />
+
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </ErrorBoundary>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
