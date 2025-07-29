@@ -14,7 +14,7 @@ export default function EmployeeList() {
 
   return (
     <div className="p-6">
-      <div className="bg-white p-6 rounded-xl shadow-sm border">
+      <div className="bg-white p-6 rounded-xl shadow-sm border border-neutral-200">
         {/* Top Controls */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           {/* Left Filters */}
@@ -24,12 +24,12 @@ export default function EmployeeList() {
               <input
                 type="text"
                 placeholder="Search SDM"
-                className="pl-10 pr-4 py-2 border rounded bg-white text-sm"
+                className="pl-10 pr-4 py-2 border border-neutral-200 rounded bg-white text-sm"
               />
             </div>
 
             <div className="relative">
-              <select className="appearance-none border pl-4 pr-8 py-2 rounded bg-white text-sm text-gray-700">
+              <select className="appearance-none border border-neutral-200 pl-4 pr-8 py-2 rounded bg-white text-sm text-gray-700">
                 <option value="">Filter by divisi</option>
                 <option value="Analis">Analis</option>
                 <option value="Backend Developer">Backend Developer</option>
@@ -51,7 +51,7 @@ export default function EmployeeList() {
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-sm border-t">
+          <table className="w-full text-sm border-t border-neutral-200">
             <thead className="bg-gray-100 text-gray-700">
               <tr>
                 <th className="text-left px-4 py-3 font-medium">#</th>
@@ -64,7 +64,7 @@ export default function EmployeeList() {
             </thead>
             <tbody>
               {dummyData.map((item, idx) => (
-                <tr key={item.id} className="border-t hover:bg-gray-50 transition">
+                <tr key={item.id} className="border-t border-neutral-200 hover:bg-gray-50 transition">
                   <td className="px-4 py-3">{idx + 1}</td>
                   <td className="px-4 py-3">{item.name}</td>
                   <td className="px-4 py-3">{item.division}</td>

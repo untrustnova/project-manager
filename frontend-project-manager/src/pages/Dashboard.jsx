@@ -41,12 +41,12 @@ export default function Dashboard() {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <ErrorBoundary>
+      {/* <ErrorBoundary>
         <Sidebar />
-      </ErrorBoundary>
+      </ErrorBoundary> */}
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        {/* <Header /> */}
 
         <main className="flex-1 p-6 overflow-auto">
           <div className="flex flex-col lg:flex-row gap-6 h-full">

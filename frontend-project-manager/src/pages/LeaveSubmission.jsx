@@ -38,7 +38,7 @@ export default function LeaveSubmission() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <div className="bg-white p-8 rounded-xl shadow-sm border">
+      <div className="bg-white p-8 rounded-xl shadow-sm border border-neutral-200">
         <h2 className="text-xl font-semibold mb-6">Leave Submission</h2>
 
         {/* Leave Category */}
@@ -47,7 +47,7 @@ export default function LeaveSubmission() {
             name="category"
             value={form.category}
             onChange={handleChange}
-            className="w-full border px-4 py-2 rounded bg-gray-100 text-gray-700"
+            className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-100 text-gray-700"
           >
             <option value="">Leave Category</option>
             <option value="Sick">Sick</option>
@@ -63,7 +63,7 @@ export default function LeaveSubmission() {
             type="date"
             value={form.startDate}
             onChange={handleChange}
-            className="w-full border px-4 py-2 rounded bg-gray-100"
+            className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-100"
             placeholder="Start Date"
           />
           <input
@@ -71,7 +71,7 @@ export default function LeaveSubmission() {
             type="date"
             value={form.endDate}
             onChange={handleChange}
-            className="w-full border px-4 py-2 rounded bg-gray-100"
+            className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-100"
             placeholder="End Date"
           />
         </div>
@@ -84,7 +84,7 @@ export default function LeaveSubmission() {
             onChange={handleChange}
             rows={4}
             placeholder="Description"
-            className="w-full border px-4 py-2 rounded bg-gray-100"
+            className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-100"
           />
         </div>
 
@@ -150,7 +150,7 @@ export default function LeaveSubmission() {
         <div className="flex justify-center gap-4">
           <button
             onClick={handleCancel}
-            className="border border-gray-400 px-6 py-2 rounded hover:bg-gray-50"
+            className="border border-neutral-200 border border-neutral-200-gray-400 px-6 py-2 rounded hover:bg-gray-50"
           >
             Cancel
           </button>

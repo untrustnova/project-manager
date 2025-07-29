@@ -1,42 +1,38 @@
-import React, { useState } from 'react';
-import { FiMail, FiLock } from 'react-icons/fi';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useState } from "react"
+import { FiMail, FiLock } from "react-icons/fi"
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const handleLogin = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
-    // Simulate API call delay
+    e.preventDefault()
+    setIsLoading(true)
+    setError("")
     setTimeout(() => {
-      if (email === 'admin@example.com' && password === 'password123') {
-        alert('Login Success!');
+      if (email === "admin@example.com" && password === "password123") {
+        alert("Login Success!")
       } else {
-        setError('Invalid email or password');
+        setError("Invalid email or password")
       }
-      setIsLoading(false);
-    }, 1000);
-  };
-
+      setIsLoading(false)
+    }, 1000)
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#5db3dd] to-[#e6f1f6]">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 mx-4">
-        <div className="text-center mb-8">
+        <div className="text-center mb-5">
           <div className="flex justify-center">
             <img
-              src="crocodic-logo.png"
+              src="/crocodic-logo.png"
               alt="Logo"
               className="h-12 w-auto"
             />
           </div>
-          <p className="text-gray-500 mt-2">
+          <p className="text-gray-500 mt-4.5">
             Welcome back! Please sign in to your account.
           </p>
         </div>
@@ -72,13 +68,13 @@ const Login = () => {
           </div>
 
           <div>
-            <div className="flex justify-between items-center mb-1">
+            <div className="w-full flex justify-between items-center mb-1">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
-              <a href="#" className="text-sm text-indigo-600 hover:text-indigo-500 hover:underline">
+              {/* <a href="#" className="text-sm text-indigo-600 hover:text-indigo-500 hover:underline">
                 Forgot password?
-              </a>
+              </a> */}
             </div>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -86,7 +82,7 @@ const Login = () => {
               </div>
               <input
                 id="password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -110,7 +106,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
+            className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ${isLoading ? "opacity-75 cursor-not-allowed" : ""}`}
           >
             {isLoading ? (
               <>
@@ -121,20 +117,23 @@ const Login = () => {
                 Signing in...
               </>
             ) : (
-              'SIGN IN'
+              "SIGN IN"
             )}
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
-          Don't have an account?{' '}
+        <p className="text-neutral-600 text-sm text-center mt-3.5">Jika lupa kata sandi / belum memiliki akun, silahkan kontak admin/support</p>
+
+        {/* Ga dipakai */}
+        {/* <div className="mt-6 text-center text-sm text-gray-500">
+          Don"t have an account?{" "}
           <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500 hover:underline">
             Sign up
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

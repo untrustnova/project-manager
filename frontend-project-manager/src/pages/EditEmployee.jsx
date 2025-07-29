@@ -51,7 +51,7 @@ export default function EditEmployee() {
             <img
               src={form.photo || `https://i.pravatar.cc/100?u=${form.name}`}
               alt="Profile"
-              className="w-24 h-24 rounded-full object-cover border"
+              className="w-24 h-24 rounded-full object-cover border border-neutral-200"
             />
           </div>
           <div className="flex-1">
@@ -64,7 +64,7 @@ export default function EditEmployee() {
               </label>
               <button
                 onClick={handleDeleteImage}
-                className="text-sm px-4 py-1 border border-gray-300 rounded hover:bg-gray-100"
+                className="text-sm px-4 py-1 border border-neutral-200 border border-neutral-200-gray-300 rounded hover:bg-gray-100"
               >
                 Deleted Picture
               </button>
@@ -79,7 +79,7 @@ export default function EditEmployee() {
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="w-full border px-4 py-2 rounded bg-gray-50"
+              className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
             />
           </div>
 
@@ -89,7 +89,7 @@ export default function EditEmployee() {
               name="password"
               value={form.password}
               onChange={handleChange}
-              className="w-full border px-4 py-2 rounded bg-gray-50"
+              className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
               type="password"
             />
           </div>
@@ -100,7 +100,7 @@ export default function EditEmployee() {
               name="nik"
               value={form.nik}
               onChange={handleChange}
-              className="w-full border px-4 py-2 rounded bg-gray-50"
+              className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
             />
           </div>
 
@@ -110,7 +110,7 @@ export default function EditEmployee() {
               name="telegram"
               value={form.telegram}
               onChange={handleChange}
-              className="w-full border px-4 py-2 rounded bg-gray-50"
+              className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
             />
           </div>
 
@@ -120,7 +120,7 @@ export default function EditEmployee() {
               name="status"
               value={form.status}
               onChange={handleChange}
-              className="w-full border px-4 py-2 rounded bg-gray-50"
+              className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
             >
               <option value="Tetap">Tetap</option>
               <option value="Kontrak">Kontrak</option>
@@ -133,7 +133,7 @@ export default function EditEmployee() {
               name="address"
               value={form.address}
               onChange={handleChange}
-              className="w-full border px-4 py-2 rounded bg-gray-50"
+              className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
             />
           </div>
 
@@ -143,7 +143,7 @@ export default function EditEmployee() {
               name="phone"
               value={form.phone}
               onChange={handleChange}
-              className="w-full border px-4 py-2 rounded bg-gray-50"
+              className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
             />
           </div>
 
@@ -156,7 +156,7 @@ export default function EditEmployee() {
                 name="birthDate"
                 value={form.birthDate}
                 onChange={handleChange}
-                className="w-full border pl-10 py-2 rounded bg-gray-50"
+                className="w-full border border-neutral-200 pl-10 py-2 rounded bg-gray-50"
               />
             </div>
           </div>
@@ -170,7 +170,7 @@ export default function EditEmployee() {
                 name="joinDate"
                 value={form.joinDate}
                 onChange={handleChange}
-                className="w-full border pl-10 py-2 rounded bg-gray-50"
+                className="w-full border border-neutral-200 pl-10 py-2 rounded bg-gray-50"
               />
             </div>
           </div>
@@ -181,7 +181,7 @@ export default function EditEmployee() {
               name="education"
               value={form.education}
               onChange={handleChange}
-              className="w-full border px-4 py-2 rounded bg-gray-50"
+              className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
             />
           </div>
         </div>
