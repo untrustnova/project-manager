@@ -15,7 +15,7 @@
 //     {
 //         // Create admin user
 //         User::create([
-//             'name' => 'Admin User',
+//             'name' => 'Admin',
 //             'email' => 'admin@projectmanager.com',
 //             'password' => Hash::make('password123'),
 //             'role' => 'admin',
@@ -42,7 +42,7 @@
 //                 'email' => 'diandraanursasyabandira@gmail.com',
 //                 'phone_number' => '081234567890',
 //                 'address' => 'Semarang, Indonesia',
-//                 'birthdate' => '1990-05-15',
+//                 'birthdate' => '2007-08-24',
 //             ],
 //             [
 //                 'name' => 'Jane Smith',

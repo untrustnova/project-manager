@@ -12,18 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->id('project_id');
+            $table->id();
             $table->string('project_name');
             $table->date('start_date');
             $table->date('deadline');
-            $table->unsignedBigInteger('project_director')->nullable();
+            $table->foreignId('project_director')->nullable()->constrained('users')->onDelete('set null');
             $table->enum('level', ['easy', 'medium', 'hard'])->default('medium');
             $table->enum('status', ['ongoing', 'pending', 'completed'])->default('pending');
             $table->timestamps();
-            
-            // Foreign key
-            $table->foreign('project_director')->references('user_id')->on('users')->onDelete('set null');
-            
+
             // Indexes
             $table->index(['status', 'deadline']);
         });

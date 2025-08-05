@@ -12,17 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('activities', function (Blueprint $table) {
-            $table->id('activity_id');
-            $table->unsignedBigInteger('user_id');
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('activity_date');
             $table->time('check_in')->nullable();
             $table->time('check_out')->nullable();
             $table->enum('status', ['present', 'absent', 'late'])->default('present');
             $table->text('note')->nullable();
             $table->timestamps();
-
-            // Foreign key
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
 
             // Indexes
             $table->index(['user_id', 'activity_date']);

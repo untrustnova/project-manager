@@ -113,11 +113,6 @@ class UserController extends Controller
             'pendidikan_terakhir' => 'sometimes|string',
             'image' => 'nullable|image|max:2048',
             'role' => 'sometimes|in:admin,employee,hr',
-            'status' => 'sometimes|in:ready,stand_by,not_ready,absent,complete',
-            'telegram_link' => 'nullable|string',
-            'birthdate' => 'nullable|date',
-            'address' => 'nullable|string',
-            'phone_number' => 'nullable|string|max:20',
         ]);
 
         $user->update($request->all());
@@ -225,7 +220,7 @@ class UserController extends Controller
             ],
             'current_tasks' => $tasks,
             'recent_activities' => $activities,
-            'monthly_completion_rate' => $taskStats->count() > 0 
+            'monthly_completion_rate' => $taskStats->count() > 0
                 ? round(($taskStats->where('status', 'completed')->count() / $taskStats->count()) * 100, 2)
                 : 0
         ];
@@ -289,7 +284,7 @@ class UserController extends Controller
             'tasks' => [
                 'total' => $tasks->count(),
                 'completed' => $tasks->where('status', 'completed')->count(),
-                'completion_rate' => $tasks->count() > 0 
+                'completion_rate' => $tasks->count() > 0
                     ? round(($tasks->where('status', 'completed')->count() / $tasks->count()) * 100, 2)
                     : 0,
                 'by_priority' => $tasks->groupBy('priority')
@@ -360,7 +355,7 @@ class UserController extends Controller
             $updateData = array_filter($userData, function ($key) {
                 return in_array($key, ['status', 'role']);
             }, ARRAY_FILTER_USE_KEY);
-            
+
             if (!empty($updateData)) {
                 $user->update($updateData);
                 $updated++;

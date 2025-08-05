@@ -9,8 +9,6 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'task_id';
-
     protected $fillable = [
         'project_id',
         'task_name',
@@ -23,7 +21,7 @@ class Task extends Model
     // Relationships
     public function project()
     {
-        return $this->belongsTo(Project::class, 'project_id', 'project_id');
+        return $this->belongsTo(Project::class);
     }
 
     public function assignedUser()

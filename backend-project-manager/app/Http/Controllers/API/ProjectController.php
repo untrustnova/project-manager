@@ -136,7 +136,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $project->load(['director', 'tasks.assignedUser']);
-        
+
         return response()->json($project);
     }
 
@@ -213,7 +213,7 @@ class ProjectController extends Controller
         DB::transaction(function () use ($project, $request) {
             // Clear existing assignments (optional)
             $project->assignedUsers()->sync($request->input('user_ids'));
-            
+
             // Create initial tasks for new users if needed
             foreach ($request->input('user_ids') as $userId) {
                 if (!$project->tasks()->where('assigned_user_id', $userId)->exists()) {
@@ -227,7 +227,7 @@ class ProjectController extends Controller
         });
 
         $project->load(['assignedUsers', 'tasks']);
-        
+
         return response()->json([
             'message' => 'Users assigned successfully',
             'project' => $project

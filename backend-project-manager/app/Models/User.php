@@ -14,8 +14,6 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $primaryKey = 'id';
-
     public $otp_code;
 
     // Ensure 'role' is a fillable attribute and exists in the database table
@@ -91,22 +89,22 @@ class User extends Authenticatable implements MustVerifyEmail
     // Relationships
     public function projectsAsDirector()
     {
-        return $this->hasMany(Project::class, 'project_director', 'user_id');
+        return $this->hasMany(Project::class, 'project_director');
     }
 
     public function tasks()
     {
-        return $this->hasMany(Task::class, 'assigned_user_id', 'user_id');
+        return $this->hasMany(Task::class, 'assigned_user_id');
     }
 
     public function leaves()
     {
-        return $this->hasMany(Leave::class, 'submitted_by_user_id', 'user_id');
+        return $this->hasMany(Leave::class, 'submitted_by_user_id');
     }
 
     public function activities()
     {
-        return $this->hasMany(Activity::class, 'user_id', 'user_id');
+        return $this->hasMany(Activity::class, 'user_id');
     }
 
     // Scopes

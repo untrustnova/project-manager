@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('leaves', function (Blueprint $table) {
-            $table->id('leave_id');
+            $table->id();
             $table->string('leave_category');
             $table->timestamp('start_date');
             $table->timestamp('end_date');
@@ -20,11 +20,8 @@ return new class extends Migration
             $table->boolean('bring_laptop')->default(false);
             $table->boolean('still_be_contacted')->default(false);
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            $table->unsignedBigInteger('submitted_by_user_id');
+            $table->foreignId('submitted_by_user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
-
-            // Foreign key
-            $table->foreign('submitted_by_user_id')->references('user_id')->on('users')->onDelete('cascade');
 
             // Indexes
             $table->index(['submitted_by_user_id', 'start_date', 'leave_category']);

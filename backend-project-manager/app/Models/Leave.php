@@ -10,8 +10,6 @@ class Leave extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'leave_id';
-
     protected $fillable = [
         'leave_category',
         'start_date',

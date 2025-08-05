@@ -12,19 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tasks', function (Blueprint $table) {
-            $table->id('task_id');
-            $table->unsignedBigInteger('project_id');
+            $table->id();
+            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
             $table->string('task_name');
             $table->text('description')->nullable();
             $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
             $table->enum('priority', ['low', 'medium', 'high'])->default('low');
-            $table->unsignedBigInteger('assigned_user_id')->nullable();
+            $table->foreignId('assigned_user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
-            
-            // Foreign keys
-            $table->foreign('project_id')->references('project_id')->on('projects')->onDelete('cascade');
-            $table->foreign('assigned_user_id')->references('user_id')->on('users')->onDelete('set null');
-            
+
             // Indexes
             $table->index(['project_id', 'status', 'assigned_user_id']);
         });

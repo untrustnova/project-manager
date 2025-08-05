@@ -2,8 +2,19 @@
 
 BASE_URL: http://127.0.0.1:8000/api
 
-// Authentication Endpoints
-BASE_URL/auth/register
+=== DOCUMENTATION ===
+
+Headers for authenticated endpoints:
+{
+    "Authorization": "Bearer {your_token}",
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+}
+
+// === Authentication Endpoints ===
+
+1. Register New User
+POST BASE_URL/auth/register
 {
     "name": "John Doe",
     "email": "john@example.com",
@@ -48,10 +59,98 @@ BASE_URL/auth/reset-password
     "password_confirmation": "newpassword123"
 }
 
-// Protected Endpoints (require Bearer Token)
-// Add header: Authorization: Bearer {token}
+// === Protected Endpoints ===
+// All endpoints below require Authentication Header
 
-// User Management
+// User Management Endpoints ===
+
+1. Get Current User Info
+GET BASE_URL/auth/me
+Response: {
+    "message": "User info retrieved successfully",
+    "data": {
+        "user": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john@example.com",
+            "role": "employee",
+            "division": "Frontend Web",
+            "status": "ready",
+            "telegram_link": "johndoe_tg",
+            "phone_number": "081234567890",
+            "birthdate": "1995-01-01",
+            "address": "Jakarta, Indonesia",
+            "image": "storage/user-images/profile.jpg",
+            "tanggal_masuk": "2025-07-24",
+            "pendidikan_terakhir": "S1 Teknik Informatika"
+        }
+    }
+}
+
+2. Get User Dashboard
+GET BASE_URL/users/dashboard
+Response: {
+    "message": "Dashboard data retrieved successfully",
+    "data": {
+        "project_stats": {
+            "total": 5,
+            "completed": 2
+        },
+        "task_stats": {
+            "total": 15,
+            "completed": 10,
+            "in_progress": 3,
+            "pending": 2
+        },
+        "current_tasks": [
+            {
+                "id": 1,
+                "task_name": "Homepage Design",
+                "priority": "high",
+                "deadline": "2025-08-24",
+                "project": {
+                    "id": 1,
+                    "project_name": "E-Commerce Website"
+                }
+            }
+        ],
+        "recent_activities": [
+            {
+                "id": 1,
+                "activity_type": "task",
+                "description": "Working on homepage design",
+                "start_time": "2025-07-24 09:00:00",
+                "end_time": "2025-07-24 17:00:00"
+            }
+        ],
+        "monthly_completion_rate": 85.5
+    }
+}
+
+3. Get User Statistics
+GET BASE_URL/users/{id}/statistics
+Response: {
+    "message": "User statistics retrieved successfully",
+    "data": {
+        "tasks": {
+            "total": 50,
+            "completed": 45,
+            "completion_rate": 90,
+            "by_priority": {
+                "high": 15,
+                "medium": 25,
+                "low": 10
+            }
+        },
+        "attendance": {
+            "total_days": 20,
+            "present": 18,
+            "late": 1,
+            "absent": 1
+        },
+        "average_completion_time": 16.5
+    }
+}
 BASE_URL/users (GET) - List users with filters
 Query params:
 - role=employee (optional)
@@ -90,60 +189,203 @@ BASE_URL/users/bulk-update (POST)
     ]
 }
 
-BASE_URL/users/{user_id}/image (POST)
+BASE_URL/users/{id}/image (POST)
 // Form-data
 image: [file]
 
-BASE_URL/users/{user_id}/status (PATCH)
+BASE_URL/users/{id}/status (PATCH)
 {
     "status": "ready" // ready, stand_by, not_ready, absent, complete
 }
 
-// Project Management
-BASE_URL/projects (POST)
+// === Project Management Endpoints ===
+
+1. List All Projects
+GET BASE_URL/projects
+Response: {
+    "message": "Projects retrieved successfully",
+    "data": {
+        "projects": [
+            {
+                "id": 1,
+                "project_name": "E-Commerce Website",
+                "description": "Build an e-commerce platform",
+                "start_date": "2025-07-24",
+                "deadline": "2025-12-24",
+                "level": "high",
+                "status": "in_progress",
+                "project_director": 1,
+                "created_at": "2025-07-24T10:00:00.000000Z",
+                "updated_at": "2025-07-24T10:00:00.000000Z"
+            }
+        ]
+    }
+}
+
+2. Get Project Statistics
+GET BASE_URL/projects/statistics
+Response: {
+    "message": "Statistics retrieved successfully",
+    "data": {
+        "total_projects": 10,
+        "by_status": {
+            "pending": 2,
+            "in_progress": 5,
+            "completed": 3
+        },
+        "by_priority": {
+            "low": 3,
+            "medium": 4,
+            "high": 3
+        }
+    }
+}
+
+3. Create New Project
+POST BASE_URL/projects
 {
-    "name": "E-Commerce Website",
+    "project_name": "E-Commerce Website",
     "description": "Build an e-commerce platform",
     "start_date": "2025-07-24",
-    "end_date": "2025-12-24",
-    "priority": "high",
+    "deadline": "2025-12-24",
+    "level": "high",
     "status": "in_progress",
-    "director_id": 1
+    "project_director": 1
 }
 
-BASE_URL/projects/{project_id} (PUT)
+BASE_URL/projects/{id} (PUT)
 {
-    "name": "E-Commerce Website V2",
+    "project_name": "E-Commerce Website V2",
     "description": "Updated project description",
     "start_date": "2025-07-24",
-    "end_date": "2025-12-31",
-    "priority": "medium",
+    "deadline": "2025-12-31",
+    "level": "medium",
     "status": "in_progress",
-    "director_id": 1
+    "project_director": 1
 }
 
-// Task Management
-BASE_URL/tasks (POST)
+// === Task Management Endpoints ===
+
+1. List All Tasks
+GET BASE_URL/tasks
+Query params:
+- status=pending (optional: pending, in_progress, completed)
+- priority=high (optional: low, medium, high)
+- project_id=1 (optional)
+Response: {
+    "message": "Tasks retrieved successfully",
+    "data": {
+        "tasks": [
+            {
+                "id": 1,
+                "title": "Homepage Design",
+                "description": "Design homepage layout",
+                "priority": "high",
+                "status": "in_progress",
+                "deadline": "2025-08-24",
+                "project_id": 1,
+                "assigned_user_id": 2,
+                "created_at": "2025-07-24T10:00:00.000000Z",
+                "updated_at": "2025-07-24T10:00:00.000000Z"
+            }
+        ]
+    }
+}
+
+2. Get My Tasks
+GET BASE_URL/tasks/my-tasks
+Response: {
+    "message": "My tasks retrieved successfully",
+    "data": {
+        "tasks": [
+            {
+                "id": 1,
+                "project_id": 1,
+                "title": "Homepage Design",
+                "description": "Design homepage layout",
+                "priority": "high",
+                "status": "in_progress",
+                "deadline": "2025-08-24",
+                "project": {
+                    "id": 1,
+                    "name": "E-Commerce Website"
+                }
+            }
+        ]
+    }
+}
+
+3. Create New Task
+POST BASE_URL/tasks
 {
     "project_id": 1,
-    "title": "Homepage Design",
+    "task_name": "Homepage Design",
     "description": "Design homepage layout",
     "priority": "high",
     "deadline": "2025-08-24",
     "assigned_user_id": 2
 }
 
-BASE_URL/tasks/{task_id} (PUT)
+BASE_URL/tasks/{id} (PUT)
 {
-    "title": "Updated Homepage Design",
+    "task_name": "Updated Homepage Design",
     "description": "Updated design requirements",
     "priority": "medium",
     "status": "in_progress",
     "deadline": "2025-08-31"
 }
 
-// Leave Management
-BASE_URL/leaves (POST)
+// === Leave Management Endpoints ===
+
+1. List All Leaves (Admin/HR only)
+GET BASE_URL/leaves
+Query params:
+- status=pending (optional: pending, approved, rejected)
+- user_id=1 (optional)
+Response: {
+    "message": "Leaves retrieved successfully",
+    "data": {
+        "leaves": [
+            {
+                "id": 1,
+                "user_id": 2,
+                "start_date": "2025-08-01",
+                "end_date": "2025-08-05",
+                "type": "annual",
+                "reason": "Family vacation",
+                "status": "pending",
+                "created_at": "2025-07-24T10:00:00.000000Z",
+                "updated_at": "2025-07-24T10:00:00.000000Z",
+                "user": {
+                    "id": 2,
+                    "name": "Jane Doe",
+                    "email": "jane@example.com"
+                }
+            }
+        ]
+    }
+}
+
+2. Get My Leaves
+GET BASE_URL/leaves/my-leaves
+Response: {
+    "message": "My leaves retrieved successfully",
+    "data": {
+        "leaves": [
+            {
+                "id": 1,
+                "start_date": "2025-08-01",
+                "end_date": "2025-08-05",
+                "type": "annual",
+                "reason": "Family vacation",
+                "status": "pending"
+            }
+        ]
+    }
+}
+
+3. Submit Leave Request
+POST BASE_URL/leaves
 {
     "start_date": "2025-08-01",
     "end_date": "2025-08-05",
@@ -151,13 +393,139 @@ BASE_URL/leaves (POST)
     "reason": "Family vacation"
 }
 
-BASE_URL/leaves/{leave_id}/status (PATCH)
+BASE_URL/leaves/{id}/status (PATCH)
 {
     "status": "approved" // approved, rejected, pending
 }
 
-// Activity Management
-BASE_URL/activities (POST)
+// === Activity Management Endpoints ===
+
+1. List All Activities (Admin/HR only)
+GET BASE_URL/activities
+Query params:
+- user_id=1 (optional)
+- date=2025-07-24 (optional)
+- activity_type=task (optional: task, meeting, break)
+Response: {
+    "message": "Activities retrieved successfully",
+    "data": {
+        "activities": [
+            {
+                "id": 1,
+                "user_id": 2,
+                "activity_type": "task",
+                "description": "Working on homepage design",
+                "start_time": "2025-07-24 09:00:00",
+                "end_time": "2025-07-24 17:00:00",
+                "task": {
+                    "id": 1,
+                    "task_name": "Homepage Design",
+                    "project": {
+                        "id": 1,
+                        "project_name": "E-Commerce Website"
+                    }
+                }
+            }
+        ]
+    }
+}
+
+2. Get My Activities
+GET BASE_URL/activities/my-activities
+Query params:
+- date=2025-07-24 (optional)
+Response: {
+    "message": "My activities retrieved successfully",
+    "data": {
+        "activities": [
+            {
+                "id": 1,
+                "activity_type": "task",
+                "description": "Working on homepage design",
+                "start_time": "2025-07-24 09:00:00",
+                "end_time": "2025-07-24 17:00:00",
+                "task": {
+                    "id": 1,
+                    "title": "Homepage Design"
+                }
+            }
+        ]
+    }
+}
+
+3. Get Working Hours Report (Admin/HR only)
+GET BASE_URL/activities/work-hours
+Query params:
+- start_date=2025-07-01 (optional)
+- end_date=2025-07-31 (optional)
+- user_id=1 (optional)
+Response: {
+    "message": "Working hours report retrieved successfully",
+    "data": {
+        "total_hours": 160,
+        "average_daily_hours": 8,
+        "by_user": [
+            {
+                "user_id": 1,
+                "name": "John Doe",
+                "total_hours": 160,
+                "average_daily_hours": 8
+            }
+        ]
+    }
+}
+
+4. Check-in
+POST BASE_URL/activities/check-in
+{
+    "notes": "Started working on homepage design"
+}
+Response: {
+    "message": "Check-in recorded successfully",
+    "data": {
+        "check_in_time": "2025-07-24 09:00:00",
+        "notes": "Started working on homepage design"
+    }
+}
+
+5. Check-out
+POST BASE_URL/activities/check-out
+{
+    "notes": "Completed homepage design"
+}
+Response: {
+    "message": "Check-out recorded successfully",
+    "data": {
+        "check_in_time": "2025-07-24 09:00:00",
+        "check_out_time": "2025-07-24 17:00:00",
+        "total_hours": 8,
+        "notes": "Completed homepage design"
+    }
+}
+
+6. Get Today's Activity
+GET BASE_URL/activities/today
+Response: {
+    "message": "Today's activity retrieved successfully",
+    "data": {
+        "check_in_time": "2025-07-24 09:00:00",
+        "check_out_time": null,
+        "current_status": "working",
+        "total_hours_today": 2.5,
+        "activities": [
+            {
+                "id": 1,
+                "activity_type": "task",
+                "description": "Working on homepage design",
+                "start_time": "2025-07-24 09:00:00",
+                "end_time": "2025-07-24 11:30:00"
+            }
+        ]
+    }
+}
+
+7. Record New Activity
+POST BASE_URL/activities
 {
     "activity_type": "task",
     "description": "Working on homepage design",
@@ -166,9 +534,9 @@ BASE_URL/activities (POST)
     "task_id": 1         // optional
 }
 
-// Response Examples
+// === Common Response Formats ===
 
-// Success Response
+// Success Response Format
 {
     "message": "Success message here",
     "data": {

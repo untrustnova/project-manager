@@ -56,7 +56,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'User registered successfully. Please check your email for OTP verification.',
-            'user' => $user->only(['user_id', 'name', 'email', 'role'])
+            'user' => $user->only(['id', 'name', 'email', 'role'])
         ], 201);
     }
 
@@ -78,7 +78,7 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-        
+
         if (!$user->is_verified) {
             return response()->json([
                 'message' => 'Please verify your email first.',
@@ -148,7 +148,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        Log::info('Logout', ['user_id' => $request->user()->user_id ?? null]);
+        Log::info('Logout', ['user_id' => $request->user()->id ?? null]);
         $request->user()->tokens()->delete();
 
         return response()->json(['message' => 'Logged out successfully']);
@@ -159,7 +159,7 @@ class AuthController extends Controller
      */
     public function me(Request $request)
     {
-        Log::info('Profile accessed', ['user_id' => $request->user()->user_id ?? null]);
+        Log::info('Profile accessed', ['user_id' => $request->user()->id ?? null]);
         return response()->json($request->user());
     }
 }

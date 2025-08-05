@@ -10,8 +10,6 @@ class Activity extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'activity_id';
-
     protected $fillable = [
         'user_id',
         'activity_date',
@@ -63,17 +61,17 @@ class Activity extends Model
 
         $checkIn = Carbon::parse($this->check_in);
         $checkOut = Carbon::parse($this->check_out);
-        
+
         return $checkIn->diffInHours($checkOut, true);
     }
 
     public function getIsLateAttribute()
     {
         if (!$this->check_in) return false;
-        
+
         $checkIn = Carbon::parse($this->check_in);
         $workStart = Carbon::parse('09:00:00'); // Assuming work starts at 9 AM
-        
+
         return $checkIn->isAfter($workStart);
     }
 

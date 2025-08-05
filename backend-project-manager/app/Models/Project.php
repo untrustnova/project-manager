@@ -10,8 +10,6 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'project_id';
-
     protected $fillable = [
         'project_name',
         'start_date',
@@ -63,7 +61,7 @@ class Project extends Model
     {
         $totalTasks = $this->tasks()->count();
         if ($totalTasks === 0) return 0;
-        
+
         $completedTasks = $this->tasks()->where('status', 'completed')->count();
         return round(($completedTasks / $totalTasks) * 100, 2);
     }
