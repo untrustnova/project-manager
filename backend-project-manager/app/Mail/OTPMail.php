@@ -9,9 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OTPMail extends Mailable implements ShouldQueue
+class OTPMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use SerializesModels;
 
     public $otp;
     public $userName;

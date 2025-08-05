@@ -9,12 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Carbon\Carbon;
 use App\Models\Leave;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
-
-    public $otp_code;
 
     // Ensure 'role' is a fillable attribute and exists in the database table
     protected $fillable = [
@@ -34,6 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'image',
         'pendidikan_terakhir',
         'tanggal_masuk',
+        'last_otp_verification',
     ];
 
     /**
@@ -150,23 +150,72 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function generateOTP()
     {
-        $this->otp_code = rand(100000, 999999);
-        $this->otp_expires_at = Carbon::now()->addMinutes(15);
-        $this->save();
+        $otp = rand(100000, 999999);
+        $now = Carbon::now()->timezone('Asia/Jakarta');
 
-        return $this->otp_code;
+        $this->forceFill([
+            'otp_code' => $otp,
+            'otp_expires_at' => $now->addMinutes(15)
+        ])->save();
+
+        Log::info('Generated new OTP', [
+            'email' => $this->email,
+            'otp' => $otp,
+            'expires_at' => $this->otp_expires_at->toDateTimeString(),
+            'current_time' => $now->toDateTimeString()
+        ]);
+
+        return $otp;
     }
 
     public function verifyOTP($code)
     {
-        if ($this->otp_code == $code && Carbon::now()->isBefore($this->otp_expires_at)) {
-            $this->is_verified = true;
-            $this->otp_code = null;
-            $this->otp_expires_at = Carbon::now();
-            $this->email_verified_at = Carbon::now();
-            $this->save();
+        $now = Carbon::now()->timezone('Asia/Jakarta');
+        $expiresAt = $this->otp_expires_at;
+
+        Log::info('OTP Verification attempt', [
+            'email' => $this->email,
+            'provided_code' => $code,
+            'stored_code' => $this->getAttribute('otp_code'),
+            'now' => $now->toDateTimeString(),
+            'expires_at' => $expiresAt ? $expiresAt->toDateTimeString() : null,
+            'last_verification' => $this->last_otp_verification,
+            'is_expired' => $expiresAt ? $now->isAfter($expiresAt) : true,
+            'code_matches' => $this->getAttribute('otp_code') == $code
+        ]);
+
+        // Fresh query to ensure we have the latest OTP data
+        $this->refresh();
+
+        if ($this->getAttribute('otp_code') == $code && $expiresAt && $now->isBefore($expiresAt)) {
+            $this->forceFill([
+                'is_verified' => true,
+                'otp_code' => null,
+                'otp_expires_at' => $now,
+                'email_verified_at' => $now,
+                'last_otp_verification' => $now
+            ])->save();
             return true;
         }
         return false;
+    }
+
+    /**
+     * Check if user needs OTP verification
+     * Returns true if:
+     * 1. User is not verified, or
+     * 2. Last OTP verification was more than 5 hours ago
+     */
+    public function needsOTPVerification(): bool
+    {
+        if (!$this->is_verified) {
+            return true;
+        }
+
+        if (!$this->last_otp_verification) {
+            return true;
+        }
+
+        return Carbon::parse($this->last_otp_verification)->addHours(5)->isPast();
     }
 }

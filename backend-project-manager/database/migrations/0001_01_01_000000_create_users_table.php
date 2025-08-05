@@ -31,6 +31,7 @@ return new class extends Migration {
             $table->string('pendidikan_terakhir')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->timestamp('last_otp_verification')->nullable();
 
             // Indexes
             $table->index(['status', 'role']);

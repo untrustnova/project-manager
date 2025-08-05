@@ -52,7 +52,19 @@ class AuthController extends Controller
 
         // Generate OTP and send email
         $otp = $user->generateOTP();
-        Mail::to($user->email)->send(new OTPMail($otp, $user->name));
+        try {
+            Mail::to($user->email)->send(new OTPMail($otp, $user->name));
+            Log::info('OTP email sent successfully', ['email' => $user->email]);
+        } catch (\Exception $e) {
+            Log::error('Failed to send OTP email', [
+                'email' => $user->email,
+                'error' => $e->getMessage()
+            ]);
+            return response()->json([
+                'message' => 'Registration successful but failed to send OTP email. Please use resend OTP.',
+                'user' => $user->only(['id', 'name', 'email', 'role'])
+            ], 201);
+        }
 
         return response()->json([
             'message' => 'User registered successfully. Please check your email for OTP verification.',
@@ -79,11 +91,35 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        if (!$user->is_verified) {
-            return response()->json([
-                'message' => 'Please verify your email first.',
-                'requires_verification' => true
-            ], 422);
+        if ($user->needsOTPVerification()) {
+            // Generate and send OTP
+            $otp = $user->generateOTP();
+            try {
+                Mail::to($user->email)->send(new OTPMail($otp, $user->name));
+                Log::info('Login: OTP sent', [
+                    'email' => $user->email,
+                    'needs_verification' => !$user->is_verified,
+                    'last_verification' => $user->last_otp_verification
+                ]);
+
+                $message = $user->is_verified
+                    ? 'Please verify your login with OTP. A new code has been sent.'
+                    : 'Please verify your email first. A new OTP has been sent.';
+
+                return response()->json([
+                    'message' => $message,
+                    'requires_verification' => true
+                ], 422);
+            } catch (\Exception $e) {
+                Log::error('Failed to send OTP during login', [
+                    'email' => $user->email,
+                    'error' => $e->getMessage()
+                ]);
+                return response()->json([
+                    'message' => 'Failed to send OTP. Please use resend OTP.',
+                    'requires_verification' => true
+                ], 422);
+            }
         }
 
         $token = $user->createToken('auth-token')->plainTextToken;
