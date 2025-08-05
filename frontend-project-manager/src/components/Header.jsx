@@ -2,14 +2,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { UserCircle, LogOut, Settings, Search, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAlert } from '../layout/Alert';
 
-export default function Header({ onSearch }) {
+export default function Header({ onSearch, user = {} }) {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const dropdownRef = useRef(null);
   const searchRef = useRef(null);
   const navigate = useNavigate();
+  const alert = useAlert()
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function Header({ onSearch }) {
   return (
     <header className="h-16 px-4 md:px-6 flex items-center justify-between bg-white border-b border-neutral-200 sticky top-0 z-10">
       {/* Logo and Mobile Menu Button */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4" onClick={() => { alert("A", "Aaaaa!") }}>
         <div className="text-xl font-semibold text-blue-600">Crocodic</div>
       </div>
 
@@ -80,7 +82,7 @@ export default function Header({ onSearch }) {
       {/* User Info */}
       <div className="flex items-center gap-4 relative" ref={dropdownRef}>
         <div 
-          className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-full p-1"
+          className="flex items-center gap-2 cursor-pointer rounded-full p-1 pl-3.5"
           onClick={() => setOpen(!open)}
         >
           <div className="text-right hidden md:block">
@@ -94,28 +96,28 @@ export default function Header({ onSearch }) {
 
         {/* Dropdown */}
         {open && (
-          <div className="absolute top-14 right-0 bg-white border rounded-lg shadow-lg w-48 z-20 overflow-hidden">
-            <div className="p-2 border-b">
+          <div className="absolute top-14 right-0 bg-white border border-neutral-200 rounded-lg shadow-lg w-48 z-20 overflow-hidden">
+            <div className="p-3 px-4 border-b border-neutral-200">
               <div className="text-sm font-medium">Arizeta</div>
               <div className="text-xs text-gray-500">freyacarol@email.com</div>
             </div>
             <button
-              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-2"
+              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
               onClick={() => {
                 navigate('/profile/edit');
                 setOpen(false);
               }}
             >
-              <Settings className="w-4 h-4" /> Edit Profile
+              <Settings className="w-4 h-4" /><span>Edit Profile</span>
             </button>
             <button
-              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-2 text-red-600"
+              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-2 cursor-pointer text-red-600"
               onClick={() => {
                 localStorage.clear();
                 navigate('/login');
               }}
             >
-              <LogOut className="w-4 h-4" /> Logout
+              <LogOut className="w-4 h-4" /><span>Logout</span>
             </button>
           </div>
         )}

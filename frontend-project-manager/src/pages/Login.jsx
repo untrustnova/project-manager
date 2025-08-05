@@ -2,8 +2,15 @@ import { useState } from "react"
 import { FiMail, FiLock } from "react-icons/fi"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import RequestURL from "../lib/request"
+import { useNavigate } from "react-router-dom"
+
+function HandleAuthSession(token, user) {
+  localStorage.setItem("token", String(token).trim())
+  localStorage.setItem("user-data", JSON.stringify(user))
+}
 
 const Login = () => {
+  const route = useNavigate()
   // Params
   const [showPassword, setShowPassword] = useState(false)
   // Forms
@@ -13,7 +20,7 @@ const Login = () => {
   // Data Action
   const [dataForm, setDataForm] = useState({ type: "login", loading: false, error: "" })
   async function handleOTP() {
-    setDataForm({ ...dataForm, loading: true })
+    setDataForm({ ...dataForm, loading: true, error: "", })
     const request = await RequestURL({
       url: "/auth/verify-otp",
       method: "POST",
@@ -30,8 +37,10 @@ const Login = () => {
       return;
     }
     // Token?
-    if(request.data.auth) {
-      localStorage.setItem("auth", String(request.data.auth))
+    if(request.data.token) {
+      HandleAuthSession(request.data.token, request.data.user)
+      route("/") // Finish! (ID: 00041)
+      return; // Redirect Finish!
     }
     setDataForm({ ...dataForm, loading: false })
   }
@@ -52,12 +61,19 @@ const Login = () => {
         password: password
       }
     })
+    if(request.data.requires_verification) {
+      setDataForm({ ...dataForm, type: "otp", loading: false })
+      return;
+    }
     if(request.isError) {
       setDataForm({ ...dataForm, loading: false, error: request?.clientError||request?.data?.message||"Masalah tidak diketahui" })
       return;
     }
-    // Next to OTP type
-    setDataForm({ ...dataForm, type: "otp", loading: false })
+    if(request.data.token && request.data.user) {
+      HandleAuthSession(request.data.token, request.data.user)
+      route("/") // Finish! (ID: 00041)
+      return; // Finish Login!
+    }
   }
   console.log(dataForm)
 

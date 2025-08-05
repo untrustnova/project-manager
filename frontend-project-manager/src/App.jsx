@@ -12,29 +12,33 @@ import CreateEmployee from './pages/CreateEmployee';
 import LeaveSubmission from './pages/LeaveSubmission';
 import EditEmployee from './pages/EditEmployee';
 import EmployeeList from './pages/EmployeeList';
+import AuthorizationProvider from './layout/Authorization';
+import AlertProvider from './layout/Alert'
 
 function App() {
-  return (
+  return <AlertProvider>
     <BrowserRouter>
       <ErrorBoundary>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="profile/edit" element={<EditProfile />} />
-            <Route path="projects" element={<Projects />} />
-            <Route path="tasks" element={<Tasks />} />
-            <Route path="activity" element={<Activity />} />
-            <Route path="employee" element={<EmployeeList />} />
-            <Route path="employee/create" element={<CreateEmployee />} />
-            <Route path="employee/:id/edit" element={<EditEmployee />} />
-            <Route path="leave" element={<LeaveSubmission />} />
+          <Route path="/" element={<AuthorizationProvider />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Layout />} >
+              <Route index element={<Dashboard />} />
+              <Route path="profile/edit" element={<EditProfile />} />
+              <Route path="projects" element={<Projects />} />
+              <Route path="tasks" element={<Tasks />} />
+              <Route path="activity" element={<Activity />} />
+              <Route path="employee" element={<EmployeeList />} />
+              <Route path="employee/create" element={<CreateEmployee />} />
+              <Route path="employee/:id/edit" element={<EditEmployee />} />
+              <Route path="leave" element={<LeaveSubmission />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </ErrorBoundary>
     </BrowserRouter>
-  );
+  </AlertProvider>
 }
 
 export default App;

@@ -32,7 +32,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`fixed top-0 left-0 z-50 h-screen bg-white border-r border-neutral-200 flex flex-col py-6 pb-0 transition-all duration-300 ease-in-out
+      className={`fixed top-0 left-0 z-40 h-screen bg-white border-r border-neutral-200 flex flex-col py-6 pb-0 transition-all duration-300 ease-in-out
         ${expanded ? "w-56" : "w-20"}`}
     >
       {/* Expand/Collapse Button */}
