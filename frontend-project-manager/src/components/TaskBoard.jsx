@@ -38,7 +38,7 @@ const dummyTasks = {
   'Completed': [
     {
       title: 'Create login page',
-      company: 'VeriGopher Digital Innovation Without Borders',
+      company: 'VeriGopher Digital Innovation Without borders',
       date: 'Nov 4, 2024'
     },
     {
@@ -57,7 +57,7 @@ export default function TaskBoard() {
           <h3 className="text-lg font-semibold">{status}</h3>
           <div className="space-y-3">
             {tasks.map((task, idx) => (
-              <div key={idx} className="bg-white p-4 rounded-lg shadow border border-gray-200">
+              <div key={idx} className="bg-white p-4 rounded-lg shadow border border-neutral-200 border border-neutral-200-gray-200">
                 <h4 className="font-medium">{task.title}</h4>
                 <p className="text-sm text-gray-500 mt-1">{task.company}</p>
                 <p className="text-xs text-gray-400 mt-2">{task.date}</p>

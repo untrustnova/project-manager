@@ -32,7 +32,7 @@ export default function Header({ onSearch }) {
   };
 
   return (
-    <header className="h-16 px-4 md:px-6 flex items-center justify-between bg-white border-b sticky top-0 z-10">
+    <header className="h-16 px-4 md:px-6 flex items-center justify-between bg-white border-b border-neutral-200 sticky top-0 z-10">
       {/* Logo and Mobile Menu Button */}
       <div className="flex items-center gap-4">
         <div className="text-xl font-semibold text-blue-600">Crocodic</div>

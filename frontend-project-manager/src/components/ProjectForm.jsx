@@ -31,7 +31,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Left - Project Info */}
-      <div className="bg-white p-6 rounded-lg border">
+      <div className="bg-white p-6 rounded-lg border border-neutral-200">
         <h2 className="text-lg font-semibold mb-4">New Project</h2>
 
         <div className="space-y-4">
@@ -40,7 +40,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
             placeholder="Project name..."
             value={form.name}
             onChange={(e) => handleChange('name', e.target.value)}
-            className="w-full border px-4 py-2 rounded bg-gray-50"
+            className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
           />
 
           <div className="flex gap-4">
@@ -48,20 +48,20 @@ export default function ProjectForm({ onCancel, onCreate }) {
               type="date"
               value={form.start}
               onChange={(e) => handleChange('start', e.target.value)}
-              className="w-full border px-4 py-2 rounded bg-gray-50"
+              className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
             />
             <input
               type="date"
               value={form.end}
               onChange={(e) => handleChange('end', e.target.value)}
-              className="w-full border px-4 py-2 rounded bg-gray-50"
+              className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
             />
           </div>
 
           <select
             value={form.level}
             onChange={(e) => handleChange('level', e.target.value)}
-            className="w-full border px-4 py-2 rounded bg-gray-50 text-gray-700"
+            className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50 text-gray-700"
           >
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -73,17 +73,17 @@ export default function ProjectForm({ onCancel, onCreate }) {
             rows={3}
             value={form.about}
             onChange={(e) => handleChange('about', e.target.value)}
-            className="w-full border px-4 py-2 rounded bg-gray-50"
+            className="w-full border border-neutral-200 px-4 py-2 rounded bg-gray-50"
           />
         </div>
       </div>
 
       {/* Right - SDM */}
-      <div className="bg-white p-6 rounded-lg border">
+      <div className="bg-white p-6 rounded-lg border border-neutral-200">
         <h2 className="text-lg font-semibold mb-4">SDM</h2>
         <div className="grid grid-cols-2 gap-4">
           <select
-            className="col-span-2 border px-4 py-2 rounded bg-gray-50"
+            className="col-span-2 border border-neutral-200 px-4 py-2 rounded bg-gray-50"
             value={form.director}
             onChange={(e) => handleChange('director', e.target.value)}
           >
@@ -95,7 +95,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
           <select
             value={form.roles.web}
             onChange={(e) => handleRoleChange('web', e.target.value)}
-            className="border px-4 py-2 rounded bg-gray-50"
+            className="border border-neutral-200 px-4 py-2 rounded bg-gray-50"
           >
             <option value="">Engineer Web</option>
             <option value="Bagas">Bagas</option>
@@ -103,7 +103,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
           <select
             value={form.roles.analyst}
             onChange={(e) => handleRoleChange('analyst', e.target.value)}
-            className="border px-4 py-2 rounded bg-gray-50"
+            className="border border-neutral-200 px-4 py-2 rounded bg-gray-50"
           >
             <option value="">Analis</option>
             <option value="Septian">Septian</option>
@@ -112,7 +112,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
           <select
             value={form.roles.android}
             onChange={(e) => handleRoleChange('android', e.target.value)}
-            className="border px-4 py-2 rounded bg-gray-50"
+            className="border border-neutral-200 px-4 py-2 rounded bg-gray-50"
           >
             <option value="">Engineer Android</option>
             <option value="Ahmad">Ahmad</option>
@@ -120,7 +120,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
           <select
             value={form.roles.content}
             onChange={(e) => handleRoleChange('content', e.target.value)}
-            className="border px-4 py-2 rounded bg-gray-50"
+            className="border border-neutral-200 px-4 py-2 rounded bg-gray-50"
           >
             <option value="">Content Creator</option>
             <option value="Bobi">Bobi</option>
@@ -129,7 +129,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
           <select
             value={form.roles.ios}
             onChange={(e) => handleRoleChange('ios', e.target.value)}
-            className="border px-4 py-2 rounded bg-gray-50"
+            className="border border-neutral-200 px-4 py-2 rounded bg-gray-50"
           >
             <option value="">Engineer IOS</option>
             <option value="Riko">Riko</option>
@@ -137,7 +137,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
           <select
             value={form.roles.copywriter}
             onChange={(e) => handleRoleChange('copywriter', e.target.value)}
-            className="border px-4 py-2 rounded bg-gray-50"
+            className="border border-neutral-200 px-4 py-2 rounded bg-gray-50"
           >
             <option value="">Copywriter</option>
             <option value="Agus">Agus</option>
@@ -146,7 +146,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
           <select
             value={form.roles.uiux}
             onChange={(e) => handleRoleChange('uiux', e.target.value)}
-            className="border px-4 py-2 rounded bg-gray-50"
+            className="border border-neutral-200 px-4 py-2 rounded bg-gray-50"
           >
             <option value="">UI/UX</option>
             <option value="Riko">Riko</option>
@@ -154,7 +154,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
           <select
             value={form.roles.tester}
             onChange={(e) => handleRoleChange('tester', e.target.value)}
-            className="border px-4 py-2 rounded bg-gray-50"
+            className="border border-neutral-200 px-4 py-2 rounded bg-gray-50"
           >
             <option value="">Tester</option>
             <option value="Rani">Rani</option>
@@ -163,7 +163,7 @@ export default function ProjectForm({ onCancel, onCreate }) {
       </div>
 
       <div className="flex justify-end gap-3 pt-6">
-        <button onClick={onCancel} className="border px-6 py-2 rounded">
+        <button onClick={onCancel} className="border border-neutral-200 px-6 py-2 rounded">
           Cancel
         </button>
         <button

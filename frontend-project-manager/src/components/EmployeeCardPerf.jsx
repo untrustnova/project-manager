@@ -6,13 +6,13 @@ export default function EmployeeCardPerf({ data }) {
   const workColor = isOverwork ? 'bg-red-600' : 'bg-blue-900';
 
   return (
-    <div className="bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition duration-200">
+    <div className="bg-white border border-neutral-200 rounded-xl p-5 shadow-sm hover:shadow-md transition duration-200">
       {/* Header */}
       <div className="flex items-center gap-4 mb-4">
         <img
           src={avatar}
           alt={name}
-          className="w-12 h-12 rounded-full object-cover border"
+          className="w-12 h-12 rounded-full object-cover border border-neutral-200"
         />
         <div>
           <h3 className="font-semibold text-base">{name}</h3>

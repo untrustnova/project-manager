@@ -34,7 +34,7 @@ export default function CreateEmployee() {
           type={type}
           value={form[name]}
           onChange={handleChange}
-          className="w-full border px-10 py-2 rounded bg-gray-50"
+          className="w-full border border-neutral-200 px-10 py-2 rounded bg-gray-50"
           placeholder={label}
         />
       </div>
@@ -60,7 +60,7 @@ export default function CreateEmployee() {
                 name="division"
                 value={form.division}
                 onChange={handleChange}
-                className="w-full border px-10 py-2 rounded bg-gray-50"
+                className="w-full border border-neutral-200 px-10 py-2 rounded bg-gray-50"
               >
                 <option value="">Enter division</option>
                 <option value="Analis">Analis</option>
